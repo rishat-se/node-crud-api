@@ -7,7 +7,9 @@ class UsersDB {
     }
 
     readById(id) {
-        return { ...this.#users.find((item) => item.id === id) };
+        const user = this.#users.find((item) => item.id === id);
+        if (!user) throw new Error('user not found');
+        return { ...user };
     }
 
     create(user) {
@@ -16,13 +18,13 @@ class UsersDB {
 
     update(user) {
         const index = this.#users.findIndex((item) => item.id === user.id);
-        if (index < 0) throw new Error('User not found');
+        if (index < 0) throw new Error('user not found');
         this.#users[index] = { ...user };
     }
 
     delete(id) {
         const index = this.#users.findIndex((item) => item.id === id);
-        if (index < 0) throw new Error('User not found');
+        if (index < 0) throw new Error('user not found');
         this.#users = this.#users.filter((item) => item.id !== id);
     }
 
