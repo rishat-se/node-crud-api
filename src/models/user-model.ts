@@ -1,11 +1,12 @@
 import { v4 as uuidv4, validate, version } from 'uuid';
 import { users } from '../data/in-memody-db.js';
+import { validateUserData } from '../validators/validate-userdata.js';
 
 export const readRecAll = () => {
     return users.readAll();
 }
 
-export const readRecById = (id) => {
+export const readRecById = (id: string) => {
     if (validate(id) && version(id) === 4) {
         const user = users.readById(id);
         return user;
@@ -14,18 +15,18 @@ export const readRecById = (id) => {
     }
 }
 
-export const createRec = (body) => {
+export const createRec = (body: string) => {
     const userData = JSON.parse(body);
-    //validate here and throw new Error('fields are missing or invalid')
+    validateUserData(userData);
     const newUser = { id: uuidv4(), ...userData };
     users.create(newUser);
     return newUser;
 }
 
-export const updateRec = (id, body) => {
+export const updateRec = (id: string, body: string) => {
     if (validate(id) && version(id) === 4) {
         const userData = JSON.parse(body);
-        //validate here and throw new Error('fields are missing or invalid')
+        validateUserData(userData);
         const updUser = { id, ...userData };
         users.update(updUser);
         return updUser;
@@ -34,9 +35,9 @@ export const updateRec = (id, body) => {
     }
 }
 
-export const deleteRecById = (id) => {
+export const deleteRecById = (id: string) => {
     if (validate(id) && version(id) === 4) {
-        const user = users.delete(id);
+        users.delete(id);
     } else {
         throw new Error('userId is invalid');
     }
