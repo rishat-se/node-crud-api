@@ -1,5 +1,9 @@
 import http, { IncomingMessage, ServerResponse } from 'node:http';
 import { getUserAll, getUserById, createUser, updateUser, deleteUser, responseOnWrongUrl } from './controllers/user-controller.js';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 
 
 const server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
@@ -22,5 +26,4 @@ const server = http.createServer((req: IncomingMessage, res: ServerResponse) => 
     }
 })
 
-const PORT: number = 4000;
-server.listen(PORT, () => console.log(`HTTP server is started and listening on port: ${PORT}`));
+server.listen(process.env.PORT, () => console.log(`HTTP server is started and listening on port: ${process.env.PORT}`));

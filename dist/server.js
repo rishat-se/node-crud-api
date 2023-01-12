@@ -1,5 +1,7 @@
 import http from 'node:http';
 import { getUserAll, getUserById, createUser, updateUser, deleteUser, responseOnWrongUrl } from './controllers/user-controller.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
 const server = http.createServer((req, res) => {
     if (req.url !== undefined) {
         if (req.url === '/api/users' && req.method === 'GET') {
@@ -25,5 +27,4 @@ const server = http.createServer((req, res) => {
         responseOnWrongUrl(res);
     }
 });
-const PORT = 4000;
-server.listen(PORT, () => console.log(`HTTP server is started and listening on port: ${PORT}`));
+server.listen(process.env.PORT, () => console.log(`HTTP server is started and listening on port: ${process.env.PORT}`));
