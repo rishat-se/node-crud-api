@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon dist/server.js",
+    "start:dev-multi": "nodemon dist/server-cluster.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
