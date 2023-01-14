@@ -1,9 +1,11 @@
 import http, { IncomingMessage, ServerResponse } from 'node:http';
-import { getUserAll, getUserById, createUser, updateUser, deleteUser, responseOnWrongUrl } from './controllers/user-controller.js';
+import { } from './controllers/user-controller.js';
+import { workerGetUserAll, workerGetUserById, workerCreateUser, workerUpdateUser, workerDeleteUser, workerResponseOnWrongUrl } from './controllers/worker-user-controller.js';
 import * as dotenv from 'dotenv';
 import cluster from 'node:cluster';
 import { cpus } from 'node:os';
 import { loadBalanceReq } from './middleware/load-balancer.js';
+import { ipcReqHandler } from './middleware/ipc-req-handler.js';
 
 dotenv.config();
 
@@ -32,26 +34,39 @@ if (cluster.isPrimary) {
         console.log(`worker ${worker.process.pid} died`);
     });
 
+    // if (cluster.workers === undefined) {
+    //     console.log('');
+    //     process.exit(1);
+    // }
+
+    for (const id in cluster.workers) {
+        const worker = cluster.workers[id];
+        worker && worker.on('message', (ipcRec) => {
+            const ipcRes = ipcReqHandler(ipcRec);
+            worker.send(ipcRes);
+        })
+    }
+
 } else {
 
     const server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
         console.log(`Worker ${process.pid} on ${PORT} processing request`);
         if (req.url !== undefined) {
             if (req.url === '/api/users' && req.method === 'GET') {
-                getUserAll(res);
+                workerGetUserAll(res);
             } else if (req.url.match(/\/api\/users\/.+/) && req.method === 'GET') {
-                getUserById(req, res);
+                workerGetUserById(req, res);
             } else if (req.url === '/api/users' && req.method === 'POST') {
-                createUser(req, res);
+                workerCreateUser(req, res);
             } else if (req.url.match(/\/api\/users\/.+/) && req.method === 'PUT') {
-                updateUser(req, res);
+                workerUpdateUser(req, res);
             } else if (req.url.match(/\/api\/users\/.+/) && req.method === 'DELETE') {
-                deleteUser(req, res);
+                workerDeleteUser(req, res);
             } else {
-                responseOnWrongUrl(res);
+                workerResponseOnWrongUrl(res);
             }
         } else {
-            responseOnWrongUrl(res);
+            workerResponseOnWrongUrl(res);
         }
     })
 
