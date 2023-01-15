@@ -10,6 +10,12 @@ const user = {
 
 let id = '';
 
+test('send GET request to a wrong endpoint and receive 404 response', async () => {
+    const response = await request(host).get('/wrongurl').send('')
+    expect(response.statusCode).toBe(404);
+});
+
+
 test('send GET request to receive all records and receive empty array', async () => {
     const response = await request(host).get('/api/users').send('')
     expect(response.statusCode).toBe(200);
@@ -46,7 +52,7 @@ test('send DELETE request to delete record by id and receive response confirming
     expect(response.statusCode).toBe(204);
 });
 
-test('send GET request to receive deleted record by id and receive fail response', async () => {
+test('send GET request to receive deleted record by id and receive 404 response', async () => {
     const response = await request(host).get(`/api/users/${id}`).send('')
     expect(response.statusCode).toBe(404);
     expect(response.body.message).toEqual('user not found');
