@@ -7,8 +7,10 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon dist/server.js",
-    "start:dev-multi": "nodemon dist/server-cluster.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev-multi": "nodemon dist/cluster.js",
+    "test:1": "jest scenario1.test.js",
+    "test:2": "jest scenario2.test.js",
+    "test:3": "jest scenario3.test.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,9 @@
   "devDependencies": {
     "@types/node": "^18.11.18",
     "@types/uuid": "^9.0.0",
-    "nodemon": "^2.0.20"
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

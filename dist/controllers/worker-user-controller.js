@@ -50,7 +50,8 @@ export const workerGetUserById = (req, res) => __awaiter(void 0, void 0, void 0,
                     res.end(JSON.stringify({ message: err.message }));
                     break;
                 default:
-                    console.log(err.message);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: err.message }));
             }
         }
         else {
@@ -73,6 +74,7 @@ export const workerCreateUser = (req, res) => __awaiter(void 0, void 0, void 0, 
                 case err.message.startsWith('Validation'):
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: err.message }));
+                    break;
                 default:
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: err.message }));
@@ -141,7 +143,6 @@ export const workerDeleteUser = (req, res) => __awaiter(void 0, void 0, void 0, 
                 default:
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: err.message }));
-                    break;
             }
         }
         else {

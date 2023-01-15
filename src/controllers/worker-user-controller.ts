@@ -38,7 +38,8 @@ export const workerGetUserById = async (req: IncomingMessage, res: ServerRespons
                     res.end(JSON.stringify({ message: err.message }));
                     break;
                 default:
-                    console.log(err.message);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: err.message }));
             }
         } else {
             console.log(String(err));
@@ -59,6 +60,7 @@ export const workerCreateUser = async (req: IncomingMessage, res: ServerResponse
                 case err.message.startsWith('Validation'):
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: err.message }));
+                    break;
                 default:
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: err.message }));
@@ -68,7 +70,6 @@ export const workerCreateUser = async (req: IncomingMessage, res: ServerResponse
         }
     }
 }
-
 
 export const workerUpdateUser = async (req: IncomingMessage, res: ServerResponse) => {
     try {
@@ -122,7 +123,6 @@ export const workerDeleteUser = async (req: IncomingMessage, res: ServerResponse
                 default:
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: err.message }));
-                    break;
             }
         } else {
             console.log(String(err));
