@@ -31,7 +31,13 @@ $ git clone https://github.com/rishat-se/node-crud-api.git
 $ cd node-crud-api
 ```
 
-To install dependencies and devdependencies, run:
+Switch to dev branch:
+
+```sh
+git checkout dev
+```
+
+Install dependencies and devdependencies, run:
 
 ```sh
 $ npm install
