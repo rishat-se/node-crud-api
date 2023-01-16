@@ -2,12 +2,11 @@
   "name": "node-crud-api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "cluster.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
     "start:dev": "nodemon dist/server.js",
-    "start:dev-multi": "nodemon dist/cluster.js",
+    "start:multi": "nodemon dist/cluster.js",
     "test:1": "jest scenario1.test.js",
     "test:2": "jest scenario2.test.js",
     "test:3": "jest scenario3.test.js"

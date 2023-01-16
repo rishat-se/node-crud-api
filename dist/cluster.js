@@ -33,7 +33,6 @@ if (cluster.isPrimary) {
 }
 else {
     const server = http.createServer((req, res) => {
-        console.log(`Worker ${process.pid} on ${PORT} processing request`);
         if (req.url !== undefined) {
             if (req.url === '/api/users' && req.method === 'GET') {
                 workerGetUserAll(res);
@@ -57,6 +56,7 @@ else {
         else {
             workerResponseOnWrongUrl(res);
         }
+        console.log(`Worker (pid: ${process.pid}) on port: ${PORT} has completed request processing`);
     });
     server.listen(PORT, () => console.log(`Worker HTTP server ( pid: ${process.pid} ) is started and listening on port: ${PORT}`));
 }
